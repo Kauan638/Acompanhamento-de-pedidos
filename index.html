@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Acompanhamento de Pedidos
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SheetJS (lê o .xlsx da consulta da API) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>
+            📦 Acompanhamento de Pedidos
+        </h1>
+
+        <nav class="nav-ferramentas">
+
+            <a href="https://kauan638.github.io/Gerador-de-abastecimento-/">
+                🚚 Gerador de Abastecimento
+            </a>
+
+            <a href="https://kauan638.github.io/Comparativo-de-estoque-/">
+                📊 Comparativo de Estoque
+            </a>
+
+            <a href="https://kauan638.github.io/Acompanhamento-de-pedidos-/" class="ativo">
+                📦 Acompanhamento de Pedidos
+            </a>
+
+        </nav>
+
+        <!-- ===================================== -->
+        <!-- UPLOAD -->
+        <!-- ===================================== -->
+
+        <div class="card">
+
+            <h2>
+                Adicionar Dia
+            </h2>
+
+            <div class="upload-linha">
+
+                <div class="upload-box" style="flex:1;min-width:320px;">
+
+                    <label>
+                        📄 Consulta da API (.xlsx)
+                    </label>
+
+                    <label
+                        class="upload-btn"
+                        for="arquivoPedidos">
+
+                        Selecionar Arquivo
+
+                    </label>
+
+                    <input
+                        type="file"
+                        id="arquivoPedidos"
+                        accept=".xlsx,.xls">
+
+                    <div
+                        class="upload-nome"
+                        id="nomePedidos">
+
+                        Nenhum arquivo selecionado
+
+                    </div>
+
+                </div>
+
+                <div class="campo-data">
+
+                    <label>
+                        Dia deste arquivo
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dataArquivo">
+
+                </div>
+
+                <button
+                    class="btn-processar"
+                    onclick="processarEAdicionarDia()">
+
+                    🚀 Processar e Adicionar Dia
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- DIAS CARREGADOS -->
+        <!-- ===================================== -->
+
+        <div class="card">
+
+            <h2>
+                Dias Carregados
+            </h2>
+
+            <div
+                class="dias-chips"
+                id="diasChips">
+
+                <p style="color:#6b7280;">
+                    Nenhum dia carregado ainda.
+                </p>
+
+            </div>
+
+            <div class="acoes">
+
+                <button
+                    class="btn-exportar"
+                    onclick="imprimirTabela()">
+
+                    🖨️ Imprimir
+
+                </button>
+
+                <button
+                    class="btn-fechar"
+                    style="border-color:var(--red);color:var(--red);"
+                    onclick="limparTudo()">
+
+                    🗑️ Limpar Todos os Dias
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- TABELA -->
+        <!-- ===================================== -->
+
+        <div class="card">
+
+            <h2>
+                Distribuição por Pavilhão — Valor (R$) e Volume
+            </h2>
+
+            <div
+                class="pedidos-table-container"
+                id="tabelaContainer">
+
+                <p style="text-align:center;color:#6b7280;padding:40px;">
+                    Processe um arquivo pra gerar a tabela.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="loading"
+        id="loading">
+
+        <div class="spinner"></div>
+
+        <p>
+            Processando arquivo...
+        </p>
+
+    </div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
