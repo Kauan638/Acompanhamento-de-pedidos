@@ -1844,3 +1844,33 @@ grid-template-columns:repeat(2,1fr);
 
     font-size:.9rem;
 }
+
+/* =======================================================
+   RELATÓRIO PARA IMAGEM (WHATSAPP) — ACOMPANHAMENTO
+   DE PEDIDOS. Largura automática (não fixa como no
+   Comparativo de Estoque) porque o número de colunas
+   de dias é variável.
+======================================================= */
+
+.relatorio-imagem-pedidos{
+
+    position:fixed;
+
+    top:0;
+
+    left:-99999px;
+
+    width:max-content;
+
+    background:var(--bg);
+
+    padding:32px;
+
+    font-family:var(--font-body);
+}
+
+.relatorio-imagem-pedidos .pedidos-table th,
+.relatorio-imagem-pedidos .pedidos-table td{
+
+    white-space:nowrap;
+}

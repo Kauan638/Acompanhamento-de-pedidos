@@ -712,3 +712,151 @@ ${tabelaHtml}
     }, 500);
 
 }
+
+// =====================================
+// GERAR IMAGEM PARA WHATSAPP
+// =====================================
+
+function montarRelatorioImagem(){
+
+    const container =
+    document.getElementById("relatorioImagem");
+
+    if(!container){
+        return;
+    }
+
+    const dias = obterDiasSalvos();
+
+    const datas =
+    Object.keys(dias).sort();
+
+    const agora =
+    new Date().toLocaleString("pt-BR");
+
+    const rotuloDias =
+    datas.length
+    ? `${formatarRotuloDia(datas[0])} a ${formatarRotuloDia(datas[datas.length - 1])}`
+    : "—";
+
+    container.innerHTML = `
+
+    <div class="ri-cabecalho">
+
+        <div class="ri-titulo">
+            📦 Relatório Executivo — Acompanhamento de Pedidos
+        </div>
+
+        <div class="ri-faixa"></div>
+
+        <div class="ri-data">
+            Período: ${rotuloDias} · Gerado em ${agora}
+        </div>
+
+    </div>
+
+    ${montarHtmlTabela()}
+
+    <div class="ri-rodape" style="margin-top:20px;">
+        Gerado pelo Acompanhamento de Pedidos
+    </div>
+
+    `;
+
+}
+
+async function gerarImagemRelatorio(){
+
+    const dias = obterDiasSalvos();
+
+    if(!Object.keys(dias).length){
+
+        alert("Nenhum dia carregado pra gerar o relatório.");
+
+        return;
+
+    }
+
+    montarRelatorioImagem();
+
+    if(document.fonts && document.fonts.ready){
+
+        await document.fonts.ready;
+
+    }
+
+    const elemento =
+    document.getElementById("relatorioImagem");
+
+    let canvas;
+
+    try{
+
+        canvas = await html2canvas(elemento, {
+
+            backgroundColor: "#14181C",
+
+            scale: 2
+
+        });
+
+    }
+    catch(erro){
+
+        console.error(erro);
+
+        alert(
+            "Não consegui gerar a imagem. Veja o console (F12) pra detalhes."
+        );
+
+        return;
+
+    }
+
+    canvas.toBlob(async blob => {
+
+        if(!blob){
+
+            alert("Falha ao gerar a imagem.");
+
+            return;
+
+        }
+
+        try{
+
+            await navigator.clipboard.write([
+
+                new ClipboardItem({
+                    "image/png": blob
+                })
+
+            ]);
+
+            alert(
+                "✅ Imagem copiada! Agora é só abrir a conversa no WhatsApp e colar (Ctrl+V)."
+            );
+
+        }
+        catch(erro){
+
+            console.error(erro);
+
+            const link = document.createElement("a");
+
+            link.href = URL.createObjectURL(blob);
+
+            link.download =
+            `acompanhamento_pedidos_${new Date().toISOString().slice(0,10)}.png`;
+
+            link.click();
+
+            alert(
+                "Seu navegador não permitiu copiar direto pro clipboard, então baixei a imagem — é só anexar ela no WhatsApp."
+            );
+
+        }
+
+    }, "image/png");
+
+}
