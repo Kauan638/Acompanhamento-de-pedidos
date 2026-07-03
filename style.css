@@ -1958,27 +1958,50 @@ grid-template-columns:repeat(2,1fr);
 
     white-space:nowrap;
 
-    padding:5px 9px;
+    padding:6px 12px;
 
-    font-size:.74rem;
+    font-size:.82rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table thead th{
-    font-size:.64rem;
-    padding:6px 9px;
+    font-size:.7rem;
+    padding:8px 12px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table td.col-tipo{
-    font-size:.62rem;
+    font-size:.68rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-secao td{
-    font-size:.7rem;
-    padding:6px 9px;
+    font-size:.78rem;
+    padding:8px 12px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-total td.col-categoria{
-    font-size:.62rem;
+    font-size:.68rem;
+}
+
+/* ---------------------------------------------------------
+   FIX: desativa o sticky das colunas Tipo/Categoria
+   DENTRO do relatório de imagem.
+
+   Sticky depende de um container com scroll real. O
+   .relatorio-imagem-pedidos fica fora da viewport
+   (position:fixed; left:-99999px) sem scroll de verdade —
+   nesse contexto o html2canvas renderiza o sticky errado
+   (as colunas fixas esticam/sobrepõem as demais), fazendo
+   os valores de cada dia sumirem da imagem gerada.
+   Como a imagem é estática, sticky não faz sentido aqui
+   mesmo — só serve pra tela com scroll.
+--------------------------------------------------------- */
+
+.relatorio-imagem-pedidos .pedidos-table td.col-tipo,
+.relatorio-imagem-pedidos .pedidos-table td.col-categoria,
+.relatorio-imagem-pedidos .pedidos-table thead th:nth-child(1),
+.relatorio-imagem-pedidos .pedidos-table thead th:nth-child(2){
+
+    position:static;
+    left:auto;
 }
 
 /* =======================================================
