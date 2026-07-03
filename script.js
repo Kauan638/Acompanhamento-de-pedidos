@@ -596,96 +596,6 @@ function montarHtmlTabela(){
 
 }
 
-// =====================================
-// GRADE DE SEÇÕES — SÓ PRA IMAGEM (WHATSAPP)
-// Em vez de uma tabela única gigante (fica muito alta e
-// estreita, aí no celular o visualizador de imagem encolhe
-// tudo demais pra caber na tela), cada pavilhão vira um
-// mini-cartão com sua própria tabelinha, e os cartões ficam
-// lado a lado em grade de 2 colunas. Fica bem mais "quadrado"
-// e o texto sai bem maior quando abre no celular.
-// =====================================
-
-function montarTabelaSecaoImagem(secao, dias, datas){
-
-    let html = `
-    <div class="ri-secao-card">
-
-        <div class="ri-secao-titulo">${secao.titulo}</div>
-
-        <table class="pedidos-table-mini">
-
-            <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Categoria</th>
-                    ${datas.map(d => `<th>${formatarRotuloDia(d)}</th>`).join("")}
-                </tr>
-            </thead>
-
-            <tbody>
-    `;
-
-    CATEGORIAS.forEach(cat => {
-
-        html += `<tr class="linha-rs">
-            <td class="col-tipo">R$</td>
-            <td class="col-categoria">${cat}</td>
-            ${datas.map(d => celulaValor(dias[d], secao.id, cat, "valor")).join("")}
-        </tr>`;
-
-    });
-
-    html += `<tr class="linha-rs linha-total">
-        <td class="col-tipo">R$</td>
-        <td class="col-categoria">📊 Total</td>
-        ${datas.map(d => celulaTotal(dias[d], secao.id, "totalValor")).join("")}
-    </tr>`;
-
-    CATEGORIAS.forEach(cat => {
-
-        html += `<tr class="linha-vol">
-            <td class="col-tipo">Vol</td>
-            <td class="col-categoria">${cat}</td>
-            ${datas.map(d => celulaValor(dias[d], secao.id, cat, "qtd")).join("")}
-        </tr>`;
-
-    });
-
-    html += `<tr class="linha-vol linha-total">
-        <td class="col-tipo">Vol</td>
-        <td class="col-categoria">📊 Total</td>
-        ${datas.map(d => celulaTotal(dias[d], secao.id, "totalQtd")).join("")}
-    </tr>`;
-
-    html += `
-            </tbody>
-
-        </table>
-
-    </div>
-    `;
-
-    return html;
-
-}
-
-function montarGridSecoesImagem(dias, datas){
-
-    let html = `<div class="ri-grid">`;
-
-    SECOES.forEach(secao => {
-
-        html += montarTabelaSecaoImagem(secao, dias, datas);
-
-    });
-
-    html += `</div>`;
-
-    return html;
-
-}
-
 function celulaValor(resumoDia, secaoId, categoria, campo){
 
     const secao = resumoDia?.[secaoId];
@@ -845,7 +755,7 @@ function montarRelatorioImagem(){
 
     </div>
 
-    ${montarGridSecoesImagem(dias, datas)}
+    ${montarHtmlTabela()}
 
     <div class="ri-rodape" style="margin-top:20px;">
         Gerado pelo Acompanhamento de Pedidos
