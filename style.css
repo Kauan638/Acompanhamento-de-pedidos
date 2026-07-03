@@ -1727,12 +1727,55 @@ grid-template-columns:repeat(2,1fr);
     position:sticky;
 
     top:0;
+
+    z-index:3;
 }
+
+/* Colunas Tipo/Categoria fixas ao rolar horizontalmente
+   (essencial no celular, pra não perder o contexto da
+   linha enquanto rola pra ver os valores dos dias) */
 
 .pedidos-table td.col-tipo,
 .pedidos-table td.col-categoria{
 
     text-align:left;
+
+    position:sticky;
+
+    background:var(--surface);
+
+    z-index:1;
+}
+
+.pedidos-table td.col-tipo{
+
+    left:0;
+
+    width:44px;
+
+    min-width:44px;
+}
+
+.pedidos-table td.col-categoria{
+
+    left:44px;
+}
+
+.pedidos-table thead th:nth-child(1),
+.pedidos-table thead th:nth-child(2){
+
+    position:sticky;
+
+    z-index:4;
+}
+
+.pedidos-table thead th:nth-child(1){ left:0; }
+.pedidos-table thead th:nth-child(2){ left:44px; }
+
+.pedidos-table tbody tr:nth-child(even) td.col-tipo,
+.pedidos-table tbody tr:nth-child(even) td.col-categoria{
+
+    background:var(--surface-alt);
 }
 
 .pedidos-table td.col-tipo{
@@ -1777,6 +1820,16 @@ grid-template-columns:repeat(2,1fr);
     font-weight:700;
 
     color:var(--text);
+}
+
+/* As colunas fixas (sticky) precisam de fundo opaco aqui —
+   um fundo translúcido deixaria o conteúdo rolado "vazar"
+   por trás ao arrastar a tabela pro lado. */
+
+.pedidos-table tr.linha-total td.col-tipo,
+.pedidos-table tr.linha-total td.col-categoria{
+
+    background:#2C2C2A;
 }
 
 .pedidos-table tr.linha-total td.col-categoria{
@@ -1873,4 +1926,144 @@ grid-template-columns:repeat(2,1fr);
 .relatorio-imagem-pedidos .pedidos-table td{
 
     white-space:nowrap;
+}
+
+/* =======================================================
+   RESPONSIVO — ACOMPANHAMENTO DE PEDIDOS (celular)
+======================================================= */
+
+@media(max-width:640px){
+
+    body{
+        padding:14px;
+    }
+
+    h1{
+        font-size:1.25rem;
+        padding-bottom:10px;
+    }
+
+    h1::after{
+        width:130px;
+        height:4px;
+        margin:10px auto 16px;
+    }
+
+    .card{
+        padding:16px;
+        margin-bottom:16px;
+    }
+
+    .card h2{
+        font-size:.95rem;
+        margin-bottom:14px;
+    }
+
+    /* Navegação entre ferramentas: links empilhados,
+       largura total, mais fáceis de tocar */
+
+    .nav-ferramentas{
+        flex-direction:column;
+        gap:8px;
+        margin:-4px auto 18px;
+    }
+
+    .nav-ferramentas a{
+        width:100%;
+        text-align:center;
+        padding:12px 16px;
+        font-size:.78rem;
+    }
+
+    /* Upload: campos empilhados e ocupando a largura toda */
+
+    .upload-linha{
+        flex-direction:column;
+        align-items:stretch;
+        gap:14px;
+    }
+
+    .upload-linha .upload-box{
+        min-width:0;
+    }
+
+    .upload-linha .campo-data input{
+        width:100%;
+    }
+
+    .btn-processar{
+        width:100%;
+    }
+
+    /* Ações (Imprimir / WhatsApp / Limpar): um por linha,
+       fáceis de tocar sem errar o botão errado */
+
+    .acoes{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .acoes button{
+        width:100%;
+    }
+
+    .dias-chips{
+        gap:8px;
+    }
+
+    .dia-chip{
+        font-size:.78rem;
+        padding:7px 12px;
+    }
+
+    /* Tabela: fonte e espaçamento mais compactos, colunas
+       Tipo/Categoria fixas (sticky) continuam funcionando
+       — só ajusta a largura pro celular */
+
+    .pedidos-table{
+        min-width:520px;
+    }
+
+    .pedidos-table th,
+    .pedidos-table td{
+        padding:8px 10px;
+        font-size:.74rem;
+    }
+
+    .pedidos-table td.col-categoria{
+        white-space:normal;
+        line-height:1.25;
+    }
+
+    .pedidos-table td.col-tipo{
+        width:38px;
+        min-width:38px;
+        font-size:.66rem;
+    }
+
+    .pedidos-table thead th:nth-child(2){
+        left:38px;
+    }
+
+    .pedidos-table td.col-categoria{
+        left:38px;
+        max-width:150px;
+    }
+
+    /* Dica visual de que dá pra arrastar a tabela pro lado */
+
+    .pedidos-table-container{
+        position:relative;
+    }
+
+    .pedidos-table-container::after{
+        content:"";
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        width:18px;
+        pointer-events:none;
+        background:linear-gradient(to right, transparent, rgba(0,0,0,.35));
+    }
 }
