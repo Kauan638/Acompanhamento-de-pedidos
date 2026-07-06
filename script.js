@@ -840,6 +840,13 @@ async function gerarImagemRelatorio(){
 
     }
 
+    // pequena espera extra pra garantir que o layout
+    // terminou de assentar antes da captura (evita
+    // resíduos visuais de pintura incompleta no
+    // html2canvas)
+
+    await new Promise(resolve => setTimeout(resolve, 80));
+
     const elemento =
     document.getElementById("relatorioImagem");
 

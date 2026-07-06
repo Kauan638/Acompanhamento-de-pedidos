@@ -1953,7 +1953,7 @@ grid-template-columns:repeat(2,1fr);
 
     margin-bottom:0;
 
-    padding:16px 22px 14px;
+    padding:13px 20px 11px;
 
     border-bottom:1px solid var(--border);
 
@@ -2040,21 +2040,21 @@ grid-template-columns:repeat(2,1fr);
 
     grid-template-columns:repeat(3,1fr);
 
-    gap:10px;
+    gap:8px;
 
-    margin:14px 22px 4px;
+    margin:10px 20px 4px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi{
 
-    padding:9px 12px;
+    padding:7px 12px;
 
     border-radius:10px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi-label{
     font-size:.66rem;
-    margin-bottom:3px;
+    margin-bottom:2px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi-valor{
@@ -2062,7 +2062,7 @@ grid-template-columns:repeat(2,1fr);
 }
 
 .relatorio-imagem-pedidos .pedidos-table-wrap{
-    padding:12px 22px 4px;
+    padding:10px 20px 4px;
 }
 
 .relatorio-imagem-pedidos .ri-rodape{
@@ -2077,7 +2077,7 @@ grid-template-columns:repeat(2,1fr);
 
     margin-top:0;
 
-    padding:10px 22px;
+    padding:8px 20px;
 
     font-size:.76rem;
 
@@ -2099,14 +2099,16 @@ grid-template-columns:repeat(2,1fr);
 
     white-space:nowrap;
 
-    padding:5px 10px;
+    padding:3px 10px;
+
+    line-height:1.2;
 
     font-size:.94rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table thead th{
     font-size:.8rem;
-    padding:6px 10px;
+    padding:5px 10px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table td.col-tipo{
@@ -2115,7 +2117,7 @@ grid-template-columns:repeat(2,1fr);
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-secao td{
     font-size:.88rem;
-    padding:6px 10px;
+    padding:4px 10px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-total td.col-categoria{
@@ -2123,26 +2125,27 @@ grid-template-columns:repeat(2,1fr);
 }
 
 /* ---------------------------------------------------------
-   FIX: desativa o sticky das colunas Tipo/Categoria
-   DENTRO do relatório de imagem.
+   FIX: desativa o sticky de TODAS as colunas/cabeçalhos
+   DENTRO do relatório de imagem (não só Tipo/Categoria).
 
    Sticky depende de um container com scroll real. O
    .relatorio-imagem-pedidos fica fora da viewport
    (position:fixed; left:-99999px) sem scroll de verdade —
-   nesse contexto o html2canvas renderiza o sticky errado
-   (as colunas fixas esticam/sobrepõem as demais), fazendo
-   os valores de cada dia sumirem da imagem gerada.
-   Como a imagem é estática, sticky não faz sentido aqui
-   mesmo — só serve pra tela com scroll.
+   nesse contexto o html2canvas pode renderizar o sticky
+   errado (texto fantasma/duplicado atrás do cabeçalho,
+   colunas esticando/sobrepondo as demais). Como a imagem
+   é estática, sticky não faz sentido aqui mesmo — só
+   serve pra tela com scroll.
 --------------------------------------------------------- */
 
 .relatorio-imagem-pedidos .pedidos-table td.col-tipo,
 .relatorio-imagem-pedidos .pedidos-table td.col-categoria,
-.relatorio-imagem-pedidos .pedidos-table thead th:nth-child(1),
-.relatorio-imagem-pedidos .pedidos-table thead th:nth-child(2){
+.relatorio-imagem-pedidos .pedidos-table thead th{
 
     position:static;
     left:auto;
+    top:auto;
+    z-index:auto;
 }
 
 /* =======================================================
