@@ -1953,7 +1953,7 @@ grid-template-columns:repeat(2,1fr);
 
     margin-bottom:0;
 
-    padding:20px 26px 18px;
+    padding:16px 22px 14px;
 
     border-bottom:1px solid var(--border);
 
@@ -1966,7 +1966,7 @@ grid-template-columns:repeat(2,1fr);
 }
 
 .relatorio-imagem-pedidos .ri-titulo{
-    font-size:1.15rem;
+    font-size:1.3rem;
     letter-spacing:.03em;
 }
 
@@ -1974,7 +1974,7 @@ grid-template-columns:repeat(2,1fr);
 
     font-family:var(--font-body);
 
-    font-size:.72rem;
+    font-size:.8rem;
 
     font-weight:600;
 
@@ -2001,14 +2001,14 @@ grid-template-columns:repeat(2,1fr);
 
     border-radius:10px;
 
-    padding:8px 16px;
+    padding:7px 15px;
 
     text-align:center;
 }
 
 .relatorio-imagem-pedidos .ri-periodo-label{
 
-    font-size:.6rem;
+    font-size:.68rem;
 
     font-weight:700;
 
@@ -2023,7 +2023,7 @@ grid-template-columns:repeat(2,1fr);
 
     font-family:var(--font-mono);
 
-    font-size:.85rem;
+    font-size:1rem;
 
     font-weight:700;
 
@@ -2042,27 +2042,27 @@ grid-template-columns:repeat(2,1fr);
 
     gap:10px;
 
-    margin:18px 26px 6px;
+    margin:14px 22px 4px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi{
 
-    padding:10px 12px;
+    padding:9px 12px;
 
     border-radius:10px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi-label{
-    font-size:.58rem;
-    margin-bottom:4px;
+    font-size:.66rem;
+    margin-bottom:3px;
 }
 
 .relatorio-imagem-pedidos .ri-kpi-valor{
-    font-size:1.15rem;
+    font-size:1.3rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table-wrap{
-    padding:16px 26px 4px;
+    padding:12px 22px 4px;
 }
 
 .relatorio-imagem-pedidos .ri-rodape{
@@ -2077,9 +2077,9 @@ grid-template-columns:repeat(2,1fr);
 
     margin-top:0;
 
-    padding:12px 26px;
+    padding:10px 22px;
 
-    font-size:.68rem;
+    font-size:.76rem;
 
     border-top:1px solid var(--border);
 
@@ -2099,27 +2099,27 @@ grid-template-columns:repeat(2,1fr);
 
     white-space:nowrap;
 
-    padding:6px 12px;
+    padding:5px 10px;
 
-    font-size:.82rem;
+    font-size:.94rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table thead th{
-    font-size:.7rem;
-    padding:8px 12px;
+    font-size:.8rem;
+    padding:6px 10px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table td.col-tipo{
-    font-size:.68rem;
+    font-size:.78rem;
 }
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-secao td{
-    font-size:.78rem;
-    padding:8px 12px;
+    font-size:.88rem;
+    padding:6px 10px;
 }
 
 .relatorio-imagem-pedidos .pedidos-table tr.linha-total td.col-categoria{
-    font-size:.68rem;
+    font-size:.78rem;
 }
 
 /* ---------------------------------------------------------
