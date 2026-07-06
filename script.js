@@ -736,29 +736,84 @@ function montarRelatorioImagem(){
 
     const rotuloDias =
     datas.length
-    ? `${formatarRotuloDia(datas[0])} a ${formatarRotuloDia(datas[datas.length - 1])}`
+    ? (
+        datas.length === 1
+        ? formatarRotuloDia(datas[0])
+        : `${formatarRotuloDia(datas[0])} a ${formatarRotuloDia(datas[datas.length - 1])}`
+      )
     : "—";
+
+    // KPIs de topo: soma da seção "Pedidos Gerais" (que já
+    // contempla todas as linhas, sem filtro) em todos os
+    // dias carregados.
+
+    let valorTotalGeral = 0;
+
+    let volumeTotalGeral = 0;
+
+    datas.forEach(d => {
+
+        const secaoGeral =
+        dias[d]?.["geral"];
+
+        if(secaoGeral?.temDados){
+
+            valorTotalGeral += secaoGeral.totalValor || 0;
+
+            volumeTotalGeral += secaoGeral.totalQtd || 0;
+
+        }
+
+    });
 
     container.innerHTML = `
 
+    <div class="ri-topo-faixa"></div>
+
     <div class="ri-cabecalho">
 
-        <div class="ri-titulo">
-            📦 Relatório Executivo — Acompanhamento de Pedidos
+        <div class="ri-titulo-bloco">
+            <div class="ri-titulo">
+                📦 Acompanhamento de Pedidos
+            </div>
+            <div class="ri-subtitulo">
+                Relatório Executivo · Distribuição por Pavilhão
+            </div>
         </div>
 
-        <div class="ri-faixa"></div>
-
-        <div class="ri-data">
-            Período: ${rotuloDias} · Gerado em ${agora}
+        <div class="ri-periodo-badge">
+            <div class="ri-periodo-label">Período</div>
+            <div class="ri-periodo-valor">${rotuloDias}</div>
         </div>
 
     </div>
 
-    ${montarHtmlTabela()}
+    <div class="ri-kpis">
 
-    <div class="ri-rodape" style="margin-top:20px;">
-        Gerado pelo Acompanhamento de Pedidos
+        <div class="ri-kpi">
+            <div class="ri-kpi-label">Dias no Relatório</div>
+            <div class="ri-kpi-valor">${datas.length}</div>
+        </div>
+
+        <div class="ri-kpi">
+            <div class="ri-kpi-label">Valor Total Geral</div>
+            <div class="ri-kpi-valor">${formatarMoeda(valorTotalGeral)}</div>
+        </div>
+
+        <div class="ri-kpi">
+            <div class="ri-kpi-label">Volume Total Geral</div>
+            <div class="ri-kpi-valor">${formatarNumero(volumeTotalGeral)}</div>
+        </div>
+
+    </div>
+
+    <div class="pedidos-table-wrap">
+        ${montarHtmlTabela()}
+    </div>
+
+    <div class="ri-rodape">
+        <span>Gerado pelo Acompanhamento de Pedidos</span>
+        <span>${agora}</span>
     </div>
 
     `;
@@ -823,24 +878,13 @@ async function gerarImagemRelatorio(){
 
         }
 
-        try{
+        const botao =
+        document.getElementById("btnExportarWhatsapp");
 
-            await navigator.clipboard.write([
+        const rotuloOriginal =
+        botao ? botao.innerHTML : null;
 
-                new ClipboardItem({
-                    "image/png": blob
-                })
-
-            ]);
-
-            alert(
-                "✅ Imagem copiada! Agora é só abrir a conversa no WhatsApp e colar (Ctrl+V)."
-            );
-
-        }
-        catch(erro){
-
-            console.error(erro);
+        function baixarBlob(){
 
             const link = document.createElement("a");
 
@@ -851,8 +895,63 @@ async function gerarImagemRelatorio(){
 
             link.click();
 
+            setTimeout(
+                () => URL.revokeObjectURL(link.href),
+                5000
+            );
+
+        }
+
+        if(navigator.clipboard && window.ClipboardItem){
+
+            try{
+
+                await navigator.clipboard.write([
+
+                    new ClipboardItem({
+                        "image/png": blob
+                    })
+
+                ]);
+
+                if(botao){
+
+                    botao.innerHTML =
+                    "✅ Copiado! Cole no WhatsApp (Ctrl+V)";
+
+                    setTimeout(()=>{
+
+                        botao.innerHTML = rotuloOriginal;
+
+                    }, 3500);
+
+                }else{
+
+                    alert(
+                        "✅ Imagem copiada! Agora é só abrir a conversa no WhatsApp e colar (Ctrl+V)."
+                    );
+
+                }
+
+            }
+            catch(erro){
+
+                console.error(erro);
+
+                baixarBlob();
+
+                alert(
+                    "Seu navegador não permitiu copiar direto pro clipboard, então baixei a imagem — é só anexar ela no WhatsApp."
+                );
+
+            }
+
+        }else{
+
+            baixarBlob();
+
             alert(
-                "Seu navegador não permitiu copiar direto pro clipboard, então baixei a imagem — é só anexar ela no WhatsApp."
+                "Seu navegador não suporta copiar imagens direto. A imagem foi baixada — é só anexar ela no WhatsApp."
             );
 
         }
