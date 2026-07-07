@@ -112,6 +112,55 @@
         </div>
 
         <!-- ===================================== -->
+        <!-- SINCRONIZAÇÃO AUTOMÁTICA -->
+        <!-- ===================================== -->
+
+        <div class="card sync-card">
+
+            <div class="sync-card-info">
+
+                <div class="sync-card-icone">🔗</div>
+
+                <div class="sync-card-textos">
+
+                    <div class="sync-card-titulo">Sincronização Automática</div>
+
+                    <div id="syncStatus" class="sync-off">
+                        <span class="sync-dot"></span> Sincronização desligada
+                    </div>
+
+                    <span id="syncUltimaChecagem" class="sync-ultima-checagem" style="display:none;"></span>
+
+                </div>
+
+            </div>
+
+            <div class="sync-card-acoes">
+
+                <button
+                id="btnConectarPasta"
+                class="btn-processar"
+                onclick="conectarPastaAcompanhamento()">
+
+                    🔗 Conectar Pasta
+
+                </button>
+
+                <button
+                id="btnDesconectarPasta"
+                class="btn-desconectar"
+                style="display:none;"
+                onclick="desconectarPastaAcompanhamento()">
+
+                    ⛔ Desconectar
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
         <!-- DIAS CARREGADOS -->
         <!-- ===================================== -->
 
@@ -207,6 +256,7 @@
     </div>
 
 <script src="script.js?v=4"></script>
+<script src="sync.js"></script>
 
 </body>
 

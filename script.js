@@ -289,71 +289,7 @@ async function processarEAdicionarDia(){
 
         }
 
-        const linhasBrutas = await lerXLSX(arquivo);
-
-        if(!linhasBrutas.length){
-
-            alert("O arquivo está vazio.");
-
-            ocultarLoading();
-
-            return;
-
-        }
-
-        const colPavilhao =
-        detectarColuna(linhasBrutas[0], ["pavilhão","pavilhao","pavilão"]);
-
-        const colSorter =
-        detectarColuna(linhasBrutas[0], ["sorter"]);
-
-        const colStatusCarga =
-        detectarColuna(linhasBrutas[0], ["status carga"]);
-
-        const colValor =
-        detectarColuna(linhasBrutas[0], ["valor"]);
-
-        const colQuantidade =
-        detectarColuna(linhasBrutas[0], ["quantidade"]);
-
-        if(!colPavilhao || !colSorter || !colStatusCarga || !colValor || !colQuantidade){
-
-            console.log(
-                "Colunas disponíveis:",
-                Object.keys(linhasBrutas[0])
-            );
-
-            alert(
-                "Não consegui identificar todas as colunas necessárias (Pavilhão, Sorter, Status Carga, Valor, Quantidade). Abra o console (F12) e me manda os nomes das colunas."
-            );
-
-            ocultarLoading();
-
-            return;
-
-        }
-
-        const linhas = linhasBrutas.map(r => ({
-
-            pavilhao: String(r[colPavilhao] || "").trim(),
-            sorter: String(r[colSorter] || "").trim().toUpperCase(),
-            statusCarga: String(r[colStatusCarga] || "").trim(),
-            valor: Number(r[colValor]) || 0,
-            quantidade: Number(r[colQuantidade]) || 0
-
-        }));
-
-        const resumoDia = calcularResumo(linhas);
-
-        const dias = obterDiasSalvos();
-
-        dias[dataIso] = resumoDia;
-
-        salvarDias(dias);
-
-        renderizarChipsDias();
-
-        renderizarTabela();
+        await processarArquivoEData(arquivo, dataIso);
 
         ocultarLoading();
 
@@ -375,6 +311,76 @@ async function processarEAdicionarDia(){
         );
 
     }
+
+}
+
+// =====================================
+// PROCESSAMENTO PURO (sem DOM/alert) —
+// recebe o File e a data já resolvidos.
+// Usado pelo botão manual (via
+// processarEAdicionarDia acima) e pela
+// sincronização automática (sync.js).
+// =====================================
+
+async function processarArquivoEData(arquivo, dataIso){
+
+    const linhasBrutas = await lerXLSX(arquivo);
+
+    if(!linhasBrutas.length){
+
+        throw new Error("O arquivo está vazio.");
+
+    }
+
+    const colPavilhao =
+    detectarColuna(linhasBrutas[0], ["pavilhão","pavilhao","pavilão"]);
+
+    const colSorter =
+    detectarColuna(linhasBrutas[0], ["sorter"]);
+
+    const colStatusCarga =
+    detectarColuna(linhasBrutas[0], ["status carga"]);
+
+    const colValor =
+    detectarColuna(linhasBrutas[0], ["valor"]);
+
+    const colQuantidade =
+    detectarColuna(linhasBrutas[0], ["quantidade"]);
+
+    if(!colPavilhao || !colSorter || !colStatusCarga || !colValor || !colQuantidade){
+
+        console.log(
+            "Colunas disponíveis:",
+            Object.keys(linhasBrutas[0])
+        );
+
+        throw new Error(
+            "Não consegui identificar todas as colunas necessárias (Pavilhão, Sorter, Status Carga, Valor, Quantidade)."
+        );
+
+    }
+
+    const linhas = linhasBrutas.map(r => ({
+
+        pavilhao: String(r[colPavilhao] || "").trim(),
+        sorter: String(r[colSorter] || "").trim().toUpperCase(),
+        statusCarga: String(r[colStatusCarga] || "").trim(),
+        valor: Number(r[colValor]) || 0,
+        quantidade: Number(r[colQuantidade]) || 0
+
+    }));
+
+    const resumoDia = calcularResumo(linhas);
+
+    const dias = obterDiasSalvos();
+
+    dias[dataIso] = resumoDia;
+
+    salvarDias(dias);
+
+    renderizarChipsDias();
+
+    renderizarTabela();
 
 }
 
